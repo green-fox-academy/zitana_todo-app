@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +19,6 @@ public class TodoApp {
               " -a   Adds a new task\n" +
               " -r   Removes an task\n" +
               " -c   Completes an task");
-  
     }
   
     if (args[0].equals("-l")) {
@@ -37,8 +35,7 @@ public class TodoApp {
     if (args[0].equals("-a")) {
       if (args.length == 1) {
         System.out.println("Unable to add: no task provided");
-      }
-      if (args.length == 2) {
+      } else if (args.length == 2) {
         fileLines.add("[ ] " + args[1]);
         writeToFile(fileLines);
       }
@@ -48,22 +45,29 @@ public class TodoApp {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
+        try {
+          if (fileLines.size() < Integer.parseInt(args[1])) {
+            System.out.println("Unable to remove: index is out of bound!");
+          }
+        } catch (IndexOutOfBoundsException e) {
+          System.out.println("Unable to remove: index is not a number");
+        }
+      } else {
         fileLines.remove(Integer.parseInt(args[1]) - 1);
         writeToFile(fileLines);
       }
     }
-  
+    
     if (args[0].equals("-c")) {
       if (args.length == 1) {
-        System.out.println("Unable to remove: no index provided");
-      }
-      if (args.length == 2) {
+        System.out.println("Unable to check: no index provided");
+      } else if (args.length == 2) {
         String completedTask = fileLines.get(Integer.parseInt(args[1])).substring(2);
         fileLines.remove(Integer.parseInt(args[1]) - 1);
         fileLines.add("[x" + completedTask);
         writeToFile(fileLines);
       }
-      }
+    }
     
   }
   
