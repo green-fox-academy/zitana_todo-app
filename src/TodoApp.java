@@ -33,7 +33,7 @@ public class TodoApp {
         }
       }
     }
-    
+  
     if (args[0].equals("-a")) {
       if (args.length == 1) {
         System.out.println("Unable to add: no task provided");
@@ -43,7 +43,7 @@ public class TodoApp {
         writeToFile(fileLines);
       }
     }
-    
+  
     if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
@@ -57,10 +57,10 @@ public class TodoApp {
         } catch (NumberFormatException e) {
           System.out.println("Unable to remove: index is not a number");
         }
+      }
+      writeToFile(fileLines);
     }
-    writeToFile(fileLines);
   }
-  
   
   private static List<String> readLinesFromFile() {
     Path path = Paths.get(FILE_NAME);
