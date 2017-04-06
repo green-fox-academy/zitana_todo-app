@@ -45,9 +45,15 @@ public class TodoApp {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
+        try
+        {
+          int givenIndex = Integer.parseInt(args[1]);
+        } catch (NumberFormatException ex) {
+          System.out.println("Unable to remove: index is not a number");
+        }
         try {
           if (fileLines.size() < Integer.parseInt(args[1])) {
-            System.out.println("Unable to remove: index is out of bound!");
+            System.out.println("Unable to remove: index is out of bounds");
           }
         } catch (IndexOutOfBoundsException e) {
           System.out.println("Unable to remove: index is not a number");
