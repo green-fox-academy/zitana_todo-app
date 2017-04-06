@@ -48,18 +48,23 @@ public class TodoApp {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
-        try {
-          if (args.length >= Integer.parseInt(args[1])) {
-            fileLines.remove(Integer.parseInt(args[1]) - 1);
-          } else {
-            System.out.println("Unable to remove: index is out of bound!");
-          }
-        } catch (NumberFormatException e) {
-          System.out.println("Unable to remove: index is not a number");
-        }
+        fileLines.remove(Integer.parseInt(args[1]) - 1);
+        writeToFile(fileLines);
       }
-      writeToFile(fileLines);
     }
+  
+    if (args[0].equals("-c")) {
+      if (args.length == 1) {
+        System.out.println("Unable to remove: no index provided");
+      }
+      if (args.length == 2) {
+        String completedTask = fileLines.get(Integer.parseInt(args[1])).substring(2);
+        fileLines.remove(Integer.parseInt(args[1]) - 1);
+        fileLines.add("[x" + completedTask);
+        writeToFile(fileLines);
+      }
+      }
+    
   }
   
   private static List<String> readLinesFromFile() {
