@@ -45,36 +45,38 @@ public class TodoApp {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
-        try
-        {
-          int givenIndex = Integer.parseInt(args[1]);
-        } catch (NumberFormatException ex) {
-          System.out.println("Unable to remove: index is not a number");
-        }
         try {
-          if (fileLines.size() < Integer.parseInt(args[1])) {
+          fileLines.remove(Integer.parseInt(args[1]) - 1);
+          writeToFile(fileLines);
+        } catch (Exception ex) {
+          if (ex instanceof NumberFormatException) {
+            System.out.println("Unable to remove: index is not a number");
+          } else if (ex instanceof IndexOutOfBoundsException) {
             System.out.println("Unable to remove: index is out of bounds");
           }
-        } catch (IndexOutOfBoundsException e) {
-          System.out.println("Unable to remove: index is not a number");
         }
-      } else {
-        fileLines.remove(Integer.parseInt(args[1]) - 1);
-        writeToFile(fileLines);
       }
     }
-    
+  
+  
     if (args[0].equals("-c")) {
       if (args.length == 1) {
         System.out.println("Unable to check: no index provided");
       } else if (args.length == 2) {
-        String completedTask = fileLines.get(Integer.parseInt(args[1])).substring(2);
-        fileLines.remove(Integer.parseInt(args[1]) - 1);
-        fileLines.add("[x" + completedTask);
-        writeToFile(fileLines);
+        try {
+          String completedTask = fileLines.get(Integer.parseInt(args[1])).substring(2);
+          fileLines.remove(Integer.parseInt(args[1]) - 1);
+          fileLines.add("[x" + completedTask);
+          writeToFile(fileLines);
+        } catch (Exception ex) {
+          if (ex instanceof NumberFormatException) {
+            System.out.println("Unable to check: index is not a number");
+          } else if (ex instanceof IndexOutOfBoundsException) {
+            System.out.println("Unable to check: index is out of bounds");
+          }
+        }
       }
     }
-    
   }
   
   private static List<String> readLinesFromFile() {
