@@ -22,8 +22,7 @@ public class TodoApp {
       if (args[0].equals("-l")) {
         if (args.length == 1) {
           if (fileLines.size() > 0) {
-            for (int i = 0; i < fileLines.size(); i++)
-              System.out.println(i + 1 + " - " + fileLines.get(i));
+            printTodoList(fileLines);
           } else if (fileLines.size() == 0) {
             System.out.println("No todos for today :)");
           }
@@ -62,8 +61,9 @@ public class TodoApp {
           System.out.println("Unable to check: no index provided");
         } else if (args.length == 2) {
           try {
-            String completedTask = fileLines.get(Integer.parseInt(args[1])).substring(2);
-            fileLines.remove(Integer.parseInt(args[1]) - 1);
+            int indexOfTask = Integer.parseInt(args[1]);
+            String completedTask = fileLines.get(indexOfTask).substring(2);
+            fileLines.remove(indexOfTask - 1);
             fileLines.add("[x" + completedTask);
             writeToFile(fileLines);
           } catch (Exception ex) {
@@ -119,6 +119,12 @@ public class TodoApp {
             " -a   Adds a new task\n" +
             " -r   Removes an task\n" +
             " -c   Completes an task");
+  }
+  
+  private static void printTodoList(List dataFromFile) {
+    for (int i = 0; i < dataFromFile.size(); i++) {
+      System.out.println(i + 1 + " - " + dataFromFile.get(i));
+    }
   }
   
 }
