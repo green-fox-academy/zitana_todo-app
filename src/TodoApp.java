@@ -10,7 +10,7 @@ public class TodoApp {
   private final static String FILE_NAME = "data.csv";
   
   public static void main(String[] args) {
-    List<String> fileLines = readLinesFromFile();
+    List<String> todoList = readLinesFromFile();
     
     if (args.length == 0) {
         userManual();
@@ -20,60 +20,13 @@ public class TodoApp {
     if (isValidArgument(args[0])) {
   
       if (args[0].equals("-l")) {
-        if (args.length == 1) {
-          if (fileLines.size() > 0) {
-            printTodoList(fileLines);
-          } else if (fileLines.size() == 0) {
-            System.out.println("No todos for today :)");
-          }
-        }
-      }
-  
-      if (args[0].equals("-a")) {
-        if (args.length == 1) {
-          System.out.println("Unable to add: no task provided");
-        } else if (args.length == 2) {
-          fileLines.add("[ ] " + args[1]);
-          writeToFile(fileLines);
-        }
-      }
-  
-      if (args[0].equals("-r")) {
-        if (args.length == 1) {
-          System.out.println("Unable to remove: no index provided");
-        } else if (args.length == 2) {
-          try {
-            fileLines.remove(Integer.parseInt(args[1]) - 1);
-            writeToFile(fileLines);
-          } catch (Exception ex) {
-            if (ex instanceof NumberFormatException) {
-              System.out.println("Unable to remove: index is not a number");
-            } else if (ex instanceof IndexOutOfBoundsException) {
-              System.out.println("Unable to remove: index is out of bounds");
-            }
-          }
-        }
-      }
-  
-  
-      if (args[0].equals("-c")) {
-        if (args.length == 1) {
-          System.out.println("Unable to check: no index provided");
-        } else if (args.length == 2) {
-          try {
-            int indexOfTask = Integer.parseInt(args[1]);
-            String completedTask = fileLines.get(indexOfTask).substring(2);
-            fileLines.remove(indexOfTask - 1);
-            fileLines.add("[x" + completedTask);
-            writeToFile(fileLines);
-          } catch (Exception ex) {
-            if (ex instanceof NumberFormatException) {
-              System.out.println("Unable to check: index is not a number");
-            } else if (ex instanceof IndexOutOfBoundsException) {
-              System.out.println("Unable to check: index is out of bounds");
-            }
-          }
-        }
+        listTasks(args, todoList);
+      } else if (args[0].equals("-a")) {
+        addTask(args, todoList);
+      } else if (args[0].equals("-r")) {
+        removeTask(args, todoList);
+      } else if (args[0].equals("-c")) {
+        completeTask(args, todoList);
       }
       
     } else {
@@ -127,4 +80,58 @@ public class TodoApp {
     }
   }
   
+  private static void listTasks(String[] args, List<String> todoList) {
+    if (args.length == 1) {
+      if (todoList.size() > 0) {
+        printTodoList(todoList);
+      } else if (todoList.size() == 0) {
+        System.out.println("No todos for today :)");
+      }
+    }
+  }
+  
+  private static void addTask(String[] args, List<String> todoList) {
+    if (args.length == 1) {
+      System.out.println("Unable to add: no task provided");
+    } else if (args.length == 2) {
+      todoList.add("[ ] " + args[1]);
+      writeToFile(todoList);
+    }
+  }
+  private static void removeTask(String[] args, List<String> todoList) {
+    if (args.length == 1) {
+      System.out.println("Unable to remove: no index provided");
+    } else if (args.length == 2) {
+      try {
+        todoList.remove(Integer.parseInt(args[1]) - 1);
+        writeToFile(todoList);
+      } catch (Exception ex) {
+        if (ex instanceof NumberFormatException) {
+          System.out.println("Unable to remove: index is not a number");
+        } else if (ex instanceof IndexOutOfBoundsException) {
+          System.out.println("Unable to remove: index is out of bounds");
+        }
+      }
+    }
+  }
+  
+  private static void completeTask(String[] args, List<String>todoList) {
+    if (args.length == 1) {
+      System.out.println("Unable to check: no index provided");
+    } else if (args.length == 2) {
+      try {
+        int indexOfTask = Integer.parseInt(args[1]);
+        String completedTask = todoList.get(indexOfTask).substring(2);
+        todoList.remove(indexOfTask - 1);
+        todoList.add("[x" + completedTask);
+        writeToFile(todoList);
+      } catch (Exception ex) {
+        if (ex instanceof NumberFormatException) {
+          System.out.println("Unable to check: index is not a number");
+        } else if (ex instanceof IndexOutOfBoundsException) {
+          System.out.println("Unable to check: index is out of bounds");
+        }
+      }
+    }
+  }
 }
