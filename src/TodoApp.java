@@ -11,7 +11,6 @@ public class TodoApp {
   
   public static void main(String[] args) {
     List<String> fileLines = readLinesFromFile();
-    List<String> arguments = new ArrayList<>(Arrays.asList("-l", "-r", "-a", "-c"));
     
     if (args.length == 0) {
       System.out.println("Todo application\n" +
@@ -24,7 +23,7 @@ public class TodoApp {
               " -c   Completes an task");
     }
     
-    if (arguments.contains(args[0])) {
+    if (isValidArgument(args[0])) {
   
       if (args[0].equals("-l")) {
         if (args.length == 1) {
@@ -109,6 +108,11 @@ public class TodoApp {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  
+  public static boolean isValidArgument(String argument) {
+    List<String> arguments = new ArrayList<>(Arrays.asList("-l", "-r", "-a", "-c"));
+      return (arguments.contains(argument));
   }
   
 }
