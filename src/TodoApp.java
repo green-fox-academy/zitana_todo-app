@@ -32,6 +32,7 @@ public class TodoApp {
     } else {
       System.out.println("Unsupported argument");
     }
+    
   }
   
   private static List<String> readLinesFromFile() {
