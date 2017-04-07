@@ -13,14 +13,8 @@ public class TodoApp {
     List<String> fileLines = readLinesFromFile();
     
     if (args.length == 0) {
-      System.out.println("Todo application\n" +
-              "=======================\n" +
-              "\n" +
-              "Command line arguments:\n" +
-              " -l   Lists all the tasks\n" +
-              " -a   Adds a new task\n" +
-              " -r   Removes an task\n" +
-              " -c   Completes an task");
+        userManual();
+        return;
     }
     
     if (isValidArgument(args[0])) {
@@ -110,9 +104,21 @@ public class TodoApp {
     }
   }
   
-  public static boolean isValidArgument(String argument) {
+  private static boolean isValidArgument(String argument) {
     List<String> arguments = new ArrayList<>(Arrays.asList("-l", "-r", "-a", "-c"));
       return (arguments.contains(argument));
+  }
+  
+  
+  private static void userManual() {
+    System.out.println("Todo application\n" +
+            "=======================\n" +
+            "\n" +
+            "Command line arguments:\n" +
+            " -l   Lists all the tasks\n" +
+            " -a   Adds a new task\n" +
+            " -r   Removes an task\n" +
+            " -c   Completes an task");
   }
   
 }
